@@ -14,8 +14,9 @@ class App extends Component {
 
   config = {
     pages: [
-      'pages/index/index',
-      'pages/hotSongList/index'
+      'pages/index/index',    
+      'pages/hotSongList/index',   //热门歌单
+      'pages/playListDetail/index',   ///歌单详情
     ],
     window: {
       backgroundTextStyle: 'light',

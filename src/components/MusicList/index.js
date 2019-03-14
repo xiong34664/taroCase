@@ -2,7 +2,7 @@ import Taro , { Component } from '@tarojs/taro';
 import { View, Text, Image} from '@tarojs/components';
 import css from './style.module.less'
 
-export default class SongCard extends Component {
+export default class MusicList extends Component {
 
    config = {
        navigationBarTitleText: ''

@@ -5,7 +5,7 @@ import { hotSongList } from '../../service';
 import SongCard from '../../components/SongCard/index';
 import './style.less'
 
-export default class Index extends Component {
+export default class HotSong extends Component {
 
    config = {
        navigationBarTitleText: '',
@@ -24,6 +24,7 @@ export default class Index extends Component {
     this.getHotSongList()
   } 
   onPullDownRefresh() {
+    Taro.stopPullDownRefresh()
     this.setState({offset: 0, songList: []},this.getHotSongList)
   }
   onReachBottom() {
@@ -44,7 +45,7 @@ export default class Index extends Component {
         if( result.code === 200) {
           const { songList } = this.state
           songList.push(...result.data)
-          this.setState({songList: songList,loading: false})
+          this.setState({songList,loading: false})
         }else {
           Taro.atMessage({
             'message': '获取数据失败',
@@ -58,17 +59,21 @@ export default class Index extends Component {
         })
       });
     })
-    
-
+  }
+  songDetail(id,title) {
+    Taro.navigateTo({url:`/pages/playListDetail/index?id=${id}&title=${title}`}).then((result) => {
+      console.log(result)
+    }).catch((err) => {
+      console.log(err)
+    });
   }
   render() {
     const { songList, loading } = this.state
-
     return (
       <View>
         <AtMessage />
-        <SongCard songList={songList}></SongCard>
-        {loading && <AtActivityIndicator content='加载中...' className='loading'></AtActivityIndicator> }
+        <SongCard songList={songList} goDetail={(...data)=>this.songDetail(...data)}></SongCard>
+        {loading && <AtActivityIndicator content='加载中...'></AtActivityIndicator> }
       </View>
     );
   }

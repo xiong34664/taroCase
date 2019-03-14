@@ -16,7 +16,7 @@ function request(config) {
       })
   })
 }
-//歌单列表
+//获取歌单列表
 export function songList(data) {
   return request({
     url: `${host}/music/netease/songList`,
