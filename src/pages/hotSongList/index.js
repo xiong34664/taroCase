@@ -1,5 +1,5 @@
 import Taro , { Component } from '@tarojs/taro';
-import { View, Text , Button} from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { AtMessage, AtActivityIndicator } from 'taro-ui'
 import { hotSongList } from '../../service';
 import SongCard from '../../components/SongCard/index';
@@ -18,35 +18,46 @@ export default class HotSong extends Component {
     songList : [],
     loading: true,
   }
-  
+  flag = false
   componentWillMount () {}
   componentDidMount () {
     this.getHotSongList()
   } 
   onPullDownRefresh() {
-    Taro.stopPullDownRefresh()
-    this.setState({offset: 0, songList: []},this.getHotSongList)
+    
+    if(!this.flag) {
+      console.log('下拉刷新')
+      this.flag = true
+      this.setState({offset: 0, songList: []},()=>{
+        this.getHotSongList(()=>{
+          Taro.stopPullDownRefresh({
+            complete:() => {
+              this.flag = false
+            }
+          }) 
+        })
+      })
+    }
   }
   onReachBottom() {
     if(!this.state.loading) {
       this.setState({offset: this.state.offset + 1},this.getHotSongList)
     }
   }
-  componentWillReceiveProps (nextProps,nextContext) {} 
+  // componentWillReceiveProps (nextProps,nextContext) {} 
   componentWillUnmount () {} 
   componentDidShow () {} 
   componentDidHide () {} 
   componentDidCatchError () {} 
   componentDidNotFound () {} 
-  getHotSongList = () => {
-    const { limit,offset } = this.state
+  getHotSongList = (cb) => {
     this.setState({loading: true},()=>{
-      hotSongList({limit,offset : offset*limit,cat:"全部"}).then((result) => {
-        if( result.code === 200) {
-          const { songList } = this.state
+      const { limit, offset, songList } = this.state
+      hotSongList({ limit, offset: offset * limit, cat: "全部" }).then((result) => {
+        if (result.code === 200) {
           songList.push(...result.data)
-          this.setState({songList,loading: false})
-        }else {
+          this.setState({ songList, loading: false },cb && cb())
+        } else {
           Taro.atMessage({
             'message': '获取数据失败',
             'type': 'error',

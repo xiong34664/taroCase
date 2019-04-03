@@ -1,6 +1,8 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, Text, Button, Image} from '@tarojs/components'
+import {View, Text, Image} from '@tarojs/components'
+import Musicplayer from '../../components/Musicplayer/index'
 import {songList} from '../../service'
+import {playMusic} from '../../utils/util'
 import css from './style.module.less'
 import {AtIcon} from 'taro-ui'
 
@@ -8,7 +10,6 @@ export default class PlayListDetail extends Component {
   config = {
     navigationBarTitleText: '歌单详情'
   }
-  innerAudioContext = Taro.createInnerAudioContext()
   state = {
     id: null,
     data: {}
@@ -34,27 +35,22 @@ export default class PlayListDetail extends Component {
   componentDidHide() {}
   componentDidCatchError() {}
   componentDidNotFound() {}
-  showImage = (url) => {
-    url = url.replace('?param=400y400','')
-    Taro.previewImage({urls: [url],current: 0})
+  showImage = url => {
+    url = url.replace('?param=400y400', '')
+    Taro.previewImage({urls: [url], current: 0})
   }
-  palyMusic = (url) => {
-    this.innerAudioContext.autoplay = true
-    this.innerAudioContext.src = url
-    this.innerAudioContext.onPlay(() => {
-      console.log('开始播放')
-    })
-    this.innerAudioContext.onError((res) => {
-      console.log(res.errMsg)
-      console.log(res.errCode)
-    })
+  playMusic = item => {
+    playMusic(item)
   }
   render() {
     const {data} = this.state
     return (
       <View>
         <View className={css['introduce']}>
-          <View className={css['detail-pic']} onClick={()=>this.showImage(data.songListPic)}>
+          <View
+            className={css['detail-pic']}
+            onClick={() => this.showImage(data.songListPic)}
+          >
             <View className={css['count']}>
               <AtIcon value='sound' size='10' color='#fff' />
               <Text>{data.songListPlayCount}</Text>
@@ -69,16 +65,22 @@ export default class PlayListDetail extends Component {
           <Text className={css['introduce-tetx']}>{data.songListName}</Text>
         </View>
         <View className={css['music-lists']}>
-          {data.songs.map((item, index) => (
-            <View className={css['music-list']} key={item.id} onClick={()=>this.palyMusic(item.url)}>
-              <Text className={css['song-index']}>{index + 1}</Text>
-              <View className={css['music-title']}>
-                <Text className={css['song-name']}>{item.name}</Text>
-                <Text className={css['song-singer']}>{item.singer}</Text>
+          {data.songs &&
+            data.songs.map((item, index) => (
+              <View
+                className={css['music-list']}
+                key={item.id}
+                onClick={() => this.playMusic(item)}
+              >
+                <Text className={css['song-index']}>{index + 1}</Text>
+                <View className={css['music-title']}>
+                  <Text className={css['song-name']}>{item.name}</Text>
+                  <Text className={css['song-singer']}>{item.singer}</Text>
+                </View>
               </View>
-            </View>
-          ))}
+            ))}
         </View>
+        <Musicplayer />
       </View>
     )
   }

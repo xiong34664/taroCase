@@ -1,7 +1,6 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro, {Component} from '@tarojs/taro'
 import Index from './pages/index'
 import 'taro-ui/dist/style/index.scss'
-
 import './app.less'
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -11,35 +10,37 @@ import './app.less'
 // }
 
 class App extends Component {
-
   config = {
     pages: [
-      'pages/index/index',    
-      'pages/hotSongList/index',   //热门歌单
-      'pages/playListDetail/index',   ///歌单详情
+      'pages/index/index',
+      'pages/hotSongList/index', //热门歌单
+      'pages/playListDetail/index' ///歌单详情
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
-    }
+      // enablePullDownRefresh: true
+    },
+    requiredBackgroundModes: ['audio']
   }
+  globalData = { 
+    song: Taro.getBackgroundAudioManager(),
+    songList: [] 
+  }
+  componentDidMount() {}
 
-  componentDidMount () {}
+  componentDidShow() {}
 
-  componentDidShow () {}
+  componentDidHide() {}
 
-  componentDidHide () {}
-
-  componentDidCatchError () {}
+  componentDidCatchError() {}
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  render () {
-    return (
-      <Index />
-    )
+  render() {
+    return <Index />
   }
 }
 
