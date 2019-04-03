@@ -53,7 +53,7 @@ export default class Musicplayer extends Component {
       <View className={css.box}>
         <AtIcon  onClick={()=>{this.setState({isShow: !isShow})}} value={this.isStatus(data.status)} size='24' color='#999'></AtIcon>
       </View>
-      <AtFloatLayout isOpened={isShow} onClose={this.setState({isShow: false})}>
+      <AtFloatLayout isOpened={isShow} onClose={()=>this.setState({isShow: false})}>
       这是内容区 随你怎么写这是内容区 随你怎么写这是内容区 随你怎么写这是内容区
       随你怎么写这是内容区 随你怎么写这是内容区 随你怎么写
     </AtFloatLayout>
