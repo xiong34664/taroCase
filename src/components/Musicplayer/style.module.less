@@ -6,8 +6,24 @@
   width: 90rpx;
   height: 90rpx;
   background: #ededed;
+  background-size: 100%;
   border-radius: 45rpx;
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: rotate(0deg);
+  animation: mymove 5s linear infinite;
+}
+
+@keyframes mymove {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+.current {
+  color: rgb(108, 226, 255);
 }

@@ -14,7 +14,8 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/hotSongList/index', //热门歌单
-      'pages/playListDetail/index' ///歌单详情
+      'pages/playListDetail/index', ///歌单详情
+      'pages/songSearch/index' ///搜索页面
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -26,8 +27,9 @@ class App extends Component {
     requiredBackgroundModes: ['audio']
   }
   globalData = { 
-    song: Taro.getBackgroundAudioManager(),
-    songList: [] 
+    song: Taro.getBackgroundAudioManager(),  //背景音乐实例
+    songList: [],   //播放列表
+    playIndex: 0,   //当前播放的下标
   }
   componentDidMount() {}
 

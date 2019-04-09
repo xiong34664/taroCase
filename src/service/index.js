@@ -3,7 +3,7 @@ import Taro from '@tarojs/taro'
 const host = 'https://api.bzqll.com'
 const KEY = 579621905
 function request(config) {
-  if(!config.data.key) {
+  if(config.url.startsWith('https://api.bzqll.com') && !config.data.key) {
     config.data.key = KEY
   }
   return new Promise((resolve, reject) => {

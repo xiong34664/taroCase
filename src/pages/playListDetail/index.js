@@ -1,10 +1,10 @@
 import Taro, {Component} from '@tarojs/taro'
 import {View, Text, Image} from '@tarojs/components'
+import {AtIcon} from 'taro-ui'
 import Musicplayer from '../../components/Musicplayer/index'
 import {songList} from '../../service'
 import {playMusic} from '../../utils/util'
 import css from './style.module.less'
-import {AtIcon} from 'taro-ui'
 
 export default class PlayListDetail extends Component {
   config = {
@@ -39,9 +39,6 @@ export default class PlayListDetail extends Component {
     url = url.replace('?param=400y400', '')
     Taro.previewImage({urls: [url], current: 0})
   }
-  playMusic = item => {
-    playMusic(item)
-  }
   render() {
     const {data} = this.state
     return (
@@ -70,7 +67,7 @@ export default class PlayListDetail extends Component {
               <View
                 className={css['music-list']}
                 key={item.id}
-                onClick={() => this.playMusic(item)}
+                onClick={() => playMusic(item)}
               >
                 <Text className={css['song-index']}>{index + 1}</Text>
                 <View className={css['music-title']}>

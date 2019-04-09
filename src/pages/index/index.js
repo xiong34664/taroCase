@@ -54,6 +54,7 @@ export default class Index extends Component {
           ))}
         </Swiper>
         <Navigator url='/pages/hotSongList/index'>热门歌单</Navigator>
+        <Navigator url='/pages/songSearch/index'>搜索</Navigator>
       </View>
     )
   }
