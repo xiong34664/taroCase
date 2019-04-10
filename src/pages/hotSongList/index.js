@@ -19,7 +19,10 @@ export default class HotSong extends Component {
     loading: true,
   }
   flag = false
-  componentWillMount () {}
+  componentWillMount () {
+    //转发链接 点击进入时获取的参数
+    console.log(this.$router)
+  }
   componentDidMount () {
     this.getHotSongList()
   } 

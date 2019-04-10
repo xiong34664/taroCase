@@ -8,39 +8,31 @@ const {globalData: app} = Taro.getApp()
  */
 export const playMusic = item => {
   addMusic(item)
-  // app.song.title = item.name
-  // app.song.epname = item.name
-  // app.song.singer = item.singer
-  // app.song.coverImgUrl = item.pic
+  app.song.title = item.name
+  app.song.epname = item.name
+  app.song.singer = item.singer
+  app.song.coverImgUrl = item.pic
   // // 设置了 src 之后会自动播放
-  // app.song.src = item.url
+  app.song.src = item.url
 
-  const downloadTask = Taro.downloadFile({
-    url: item.url, // 仅为示例，并非真实的资源
-    header: {
-      'Content-Type': "audio/mp3"
-    },
-    success(res) {
-      // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
-      if (res.statusCode === 200) {
-        Taro.saveVideoToPhotosAlbum({
-          filePath: res.tempFilePath,
-          success: function(result) {
-            console.log('打开文档成功',result)
-          },
-        })
-      }
-    }
-  })
-  console.log(downloadTask)
-  downloadTask.then(res => {
-    console.log(res)
-  })
-  downloadTask.onProgressUpdate((res) => {
-    console.log('下载进度', res.progress)
-    console.log('已经下载的数据长度', res.totalBytesWritten)
-    console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
-  })
+  // const downloadTask = Taro.downloadFile({
+  //   url: item.url, // 仅为示例，并非真实的资源
+  //   success(res) {
+  //     // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+  //     if (res.statusCode === 200) {
+  //       // Taro.saveVideoToPhotosAlbum({
+  //       //   filePath: res.tempFilePath,
+  //       //   success: function(result) {
+  //       //     console.log('打开文档成功',result)
+  //       //   },
+  //       // })
+  //       app.song.src = res.tempFilePath
+  //     }
+  //   }
+  // })
+  // downloadTask.then(res => {
+  //   console.log(res)
+  // })
   //播放结束  自动播放下一首歌
   app.song.onEnded(() => {
     if (app.songList.length) {

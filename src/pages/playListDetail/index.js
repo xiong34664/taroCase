@@ -1,5 +1,5 @@
 import Taro, {Component} from '@tarojs/taro'
-import {View, Text, Image} from '@tarojs/components'
+import {View, Text, Image, Button} from '@tarojs/components'
 import {AtIcon} from 'taro-ui'
 import Musicplayer from '../../components/Musicplayer/index'
 import {songList} from '../../service'
@@ -14,11 +14,13 @@ export default class PlayListDetail extends Component {
     id: null,
     data: {}
   }
-
   componentWillMount() {
     const {id, title} = this.$router.params
-    Taro.setNavigationBarTitle({title})
+    Taro.setNavigationBarTitle({title: decodeURI(title)})
     this.setState({id})
+    Taro.showShareMenu({
+      withShareTicket: true
+    })
   }
   componentDidMount() {
     songList({id: this.state.id})
@@ -38,6 +40,15 @@ export default class PlayListDetail extends Component {
   showImage = url => {
     url = url.replace('?param=400y400', '')
     Taro.previewImage({urls: [url], current: 0})
+  }
+  onShareAppMessage () {
+    return {
+      imageUrl: this.state.data.songListPic,
+      title: this.state.data.songListName,
+      success: (res) => {
+        console.log(res)
+      }
+    }
   }
   render() {
     const {data} = this.state
